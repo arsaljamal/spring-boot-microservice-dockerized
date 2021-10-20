@@ -1,5 +1,7 @@
 package com.learning.springboot.web;
 
+import com.learning.springboot.domain.TourRating;
+
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -16,6 +18,10 @@ public class RatingDto {
 
     @NotNull
     private Integer customerId;
+
+    public RatingDto(TourRating tourRating) {
+        this(tourRating.getScore(), tourRating.getComment(), tourRating.getTourRatingPk().getCustomerId());
+    }
 
     public RatingDto(Integer score, String comment, Integer customerId) {
         this.score = score;
