@@ -2,14 +2,14 @@ package com.learning.springboot.web;
 
 
 import com.learning.springboot.domain.Tour;
+import com.learning.springboot.domain.TourRating;
+import com.learning.springboot.domain.TourRatingPk;
 import com.learning.springboot.repo.TourRatingRepository;
 import com.learning.springboot.repo.TourRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.NoSuchElementException;
 
@@ -26,12 +26,17 @@ public class TourRatingController {
         this.tourRepository = tourRepository;
     }
 
-    public void createTourRating() {
-
+    @PostMapping
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void createTourRating(@PathVariable(value = "tourId") int tourId,@RequestBody @Validated RatingDto ratingDto) {
+        Tour tour = verifyTour(tourId);
+        tourRatingRepository.save(new TourRating(new TourRatingPk(tour, ratingDto.getCustomerId()),
+                ratingDto.getScore(), ratingDto.getComment()));
     }
 
-    private Tour verifyTour() {
-        return null;
+    private Tour verifyTour(int tourId) throws NoSuchElementException {
+        return tourRepository.findById(tourId).orElseThrow(() ->
+                new NoSuchElementException("Tour does not exit" + tourId));
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
