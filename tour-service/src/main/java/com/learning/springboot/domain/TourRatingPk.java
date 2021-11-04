@@ -2,6 +2,7 @@ package com.learning.springboot.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.io.Serializable;
 import java.util.Objects;
@@ -10,9 +11,10 @@ import java.util.Objects;
 public class TourRatingPk implements Serializable {
 
     @ManyToOne
+    @JoinColumn(name = "tour_id")
     private Tour tour;
 
-    @Column(insertable = false, updatable = false, nullable = false)
+    @Column(insertable = false, updatable = false, nullable = false, name="customer_id")
     private Integer customerId;
 
 

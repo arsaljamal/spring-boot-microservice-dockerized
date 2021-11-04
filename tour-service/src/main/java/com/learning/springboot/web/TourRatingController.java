@@ -57,7 +57,7 @@ public class TourRatingController {
 
     @PutMapping
     public RatingDto updateWithPut(@PathVariable(value = "tourId") int tourId,@RequestBody @Validated RatingDto ratingDto) {
-        TourRating rating = new TourRating();//verifyTourRating(tourId, ratingDto.getCustomerId());
+        TourRating rating = verifyTourRating(tourId, ratingDto.getCustomerId());
         rating.setScore(ratingDto.getScore());
         rating.setComment(ratingDto.getComment());
         return new RatingDto(tourRatingRepository.save(rating));
@@ -65,7 +65,7 @@ public class TourRatingController {
 
     @PatchMapping
     public RatingDto updateWithPatch(@PathVariable(value = "tourId") int tourId,@RequestBody @Validated RatingDto ratingDto) {
-        TourRating rating = new TourRating();//verifyTourRating(tourId, ratingDto.getCustomerId());
+        TourRating rating = verifyTourRating(tourId, ratingDto.getCustomerId());
         if (ratingDto.getScore() != null) {
             rating.setScore(ratingDto.getScore());
         }
@@ -77,15 +77,15 @@ public class TourRatingController {
 
     @DeleteMapping(path = "/{customerId}")
     public void delete(@PathVariable(value = "tourId") int tourId,@PathVariable(value = "customerId") int customerId) {
-        TourRating rating = new TourRating();//verifyTourRating(tourId, customerId);
+        TourRating rating = verifyTourRating(tourId, customerId);
         tourRatingRepository.delete(rating);
     }
 
-//    public TourRating verifyTourRating(int tourId, int customerId) throws NoSuchElementException {
-//        return tourRatingRepository.findByTourRatingPkTourAndCustomerId(tourId, customerId).orElseThrow(()
-//                -> new NoSuchElementException("Tour-Rating pair for request("
-//                + tourId + " for customer" + customerId));
-//    }
+    public TourRating verifyTourRating(int tourId, int customerId) throws NoSuchElementException {
+        return tourRatingRepository.findByTourRatingPkTourAndTourRatingPkCustomerId(tourId, customerId).orElseThrow(()
+                -> new NoSuchElementException("Tour-Rating pair for request("
+                + tourId + " for customer" + customerId));
+    }
 
     private Tour verifyTour(int tourId) throws NoSuchElementException {
         return tourRepository.findById(tourId).orElseThrow(() ->

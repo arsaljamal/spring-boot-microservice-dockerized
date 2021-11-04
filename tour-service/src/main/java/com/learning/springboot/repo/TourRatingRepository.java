@@ -13,5 +13,5 @@ public interface TourRatingRepository extends CrudRepository<TourRating, TourRat
 
     List<TourRating> findByTourRatingPkTour(Integer tourId);
 
-    //Optional<TourRating> findByTourRatingPkTourAndCustomerId(Integer tourId, Integer customerId);
+    Optional<TourRating> findByTourRatingPkTourAndTourRatingPkCustomerId(Integer tourId, Integer customerId);
 }
