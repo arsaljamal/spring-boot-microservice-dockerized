@@ -6,6 +6,7 @@ import com.learning.springboot.domain.TourRating;
 import com.learning.springboot.domain.TourRatingPk;
 import com.learning.springboot.repo.TourRatingRepository;
 import com.learning.springboot.repo.TourRepository;
+import com.learning.springboot.service.TourRatingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,20 +25,21 @@ public class TourRatingController {
     private static final Logger LOGGER = LoggerFactory.getLogger(TourRatingController.class);
     TourRatingRepository tourRatingRepository;
     TourRepository tourRepository;
+    TourRatingService tourRatingService;
 
     @Autowired
-    public TourRatingController(TourRatingRepository tourRatingRepository, TourRepository tourRepository) {
+    public TourRatingController(TourRatingRepository tourRatingRepository, TourRepository tourRepository, TourRatingService tourRatingService) {
         this.tourRatingRepository = tourRatingRepository;
         this.tourRepository = tourRepository;
+        this.tourRatingService = tourRatingService;
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void createTourRating(@PathVariable(value = "tourId") int tourId,@RequestBody @Validated RatingDto ratingDto) {
         LOGGER.info("Path /tours/{}/ratings",tourId);
-        Tour tour = verifyTour(tourId);
-        tourRatingRepository.save(new TourRating(new TourRatingPk(tour, ratingDto.getCustomerId()),
-                ratingDto.getScore(), ratingDto.getComment()));
+        tourRatingService.createNew(tourId, ratingDto.getCustomerId(),
+                ratingDto.getScore(), ratingDto.getComment());
     }
 
     @GetMapping
