@@ -3,7 +3,6 @@ package com.learning.springboot.web;
 
 import com.learning.springboot.domain.Tour;
 import com.learning.springboot.domain.TourRating;
-import com.learning.springboot.domain.TourRatingPk;
 import com.learning.springboot.repo.TourRatingRepository;
 import com.learning.springboot.repo.TourRepository;
 import com.learning.springboot.service.TourRatingService;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -47,6 +47,13 @@ public class TourRatingController {
         verifyTour(tourId);
         return tourRatingRepository.findByTourRatingPkTour(tourId).stream()
                 .map(RatingDto::new).collect(Collectors.toList());
+    }
+
+    @GetMapping(path = "/{customerId}")
+    public RatingDto getRatingForTour(@PathVariable(value = "tourId") int tourId, @PathVariable(value = "customerId") int customerId ) {
+        verifyTour(tourId);
+        Optional<TourRating> tourRating = tourRatingService.findTourRatingByTourIdAndCustomer(tourId, customerId);
+        return new RatingDto(tourRating.get());
     }
 
     @GetMapping(path ="/average" )
@@ -91,7 +98,7 @@ public class TourRatingController {
 
     private Tour verifyTour(int tourId) throws NoSuchElementException {
         return tourRepository.findById(tourId).orElseThrow(() ->
-                new NoSuchElementException("Tour does not exit" + tourId));
+                new NoSuchElementException("Tour does not exit " + tourId));
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)

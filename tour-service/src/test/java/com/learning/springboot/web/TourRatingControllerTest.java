@@ -3,6 +3,7 @@ package com.learning.springboot.web;
 import com.learning.springboot.domain.Tour;
 import com.learning.springboot.domain.TourRating;
 import com.learning.springboot.domain.TourRatingPk;
+import com.learning.springboot.repo.TourRepository;
 import com.learning.springboot.service.TourRatingService;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,7 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.Optional;
+
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
@@ -32,6 +40,9 @@ public class TourRatingControllerTest {
 
     @MockBean
     TourRatingService tourRatingServiceMock;
+
+    @MockBean
+    TourRepository tourRepositoryMock;
 
     @Mock
     TourRating tourRatingMock;
@@ -56,4 +67,15 @@ public class TourRatingControllerTest {
         verify(this.tourRatingServiceMock).createNew(TOUR_ID, CUSTOMER_ID, SCORE, COMMENT);
     }
 
+    @Test
+    public void getTourRating() {
+        when(tourRepositoryMock.findById(TOUR_ID)).thenReturn(Optional.of(tourMock));
+        when(tourRatingServiceMock.findTourRatingByTourIdAndCustomer(TOUR_ID,CUSTOMER_ID))
+                .thenReturn(Optional.of(tourRatingMock));
+
+        ResponseEntity<String> response = testRestTemplate.
+                getForEntity(TOUR_RATING_URL+"/"+CUSTOMER_ID, String.class);
+
+        assertThat(response.getStatusCode(), is(HttpStatus.OK));
+    }
 }
