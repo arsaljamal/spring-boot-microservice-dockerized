@@ -6,6 +6,8 @@ import com.learning.springboot.repo.TourPackageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+
 @Service
 public class TourPackageService {
 
@@ -23,4 +25,9 @@ public class TourPackageService {
     public Iterable<TourPackage> lookUp() { return tourPackageRepository.findAll();}
 
     public long total() {return tourPackageRepository.count();}
+
+    public TourPackage verifyTourPackage(String code, String name) throws NoSuchElementException {
+        return tourPackageRepository.findByCodeAndName(code, name).orElseThrow(() ->
+                new NoSuchElementException("No Such TourPackage found!"));
+    }
 }
