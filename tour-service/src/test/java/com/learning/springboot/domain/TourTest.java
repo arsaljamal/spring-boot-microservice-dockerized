@@ -1,5 +1,6 @@
 package com.learning.springboot.domain;
 
+import org.hamcrest.core.Is;
 import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
@@ -13,8 +14,8 @@ public class TourTest {
 
         assertNull(tour.getId());
         assertThat(tour.getTitle(), is("Karachi"));
-        assertThat(tour.getDifficulty(), is(Difficulty.Difficult));
-        assertThat(tour.getRegion(), is(Region.Sindh));
+        assertThat(tour.getDifficulty(), Is.is(Difficulty.Difficult));
+        assertThat(tour.getRegion(), Is.is(Region.Sindh));
         assertThat(tour.getTourPackage().getCode(), is("PK"));
         assertThat(tour.getTourPackage().getName(), is("karachi-tour"));
     }

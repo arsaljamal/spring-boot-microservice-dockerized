@@ -3,9 +3,9 @@ package com.learning.springboot.web;
 
 import com.learning.springboot.domain.Tour;
 import com.learning.springboot.domain.TourRating;
-import com.learning.springboot.repo.TourRatingRepository;
 import com.learning.springboot.repo.TourRepository;
 import com.learning.springboot.service.TourRatingService;
+import com.learning.springboot.repo.TourRatingRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
