@@ -21,15 +21,15 @@ docker ps -a
 ``
 docker run -it --link tour-mysql:mysql --rm mysql sh -c 'exec mysql -h"$MYSQL_PORT_3306_TCP_ADDR" -P"$MYSQL_PORT_3306_TCP_PORT" -uroot -p"$MYSQL_ENV_MYSQL_ROOT_PASSWORD"'
 ``
-##### Stop ec-mysql container
+##### Stop tour-mysql container
 ``
 docker stop tour-mysql
 ``
-##### (ReStart) ec-mysql container
+##### (ReStart) tour-mysql container
 ``
 docker start tour-mysql
 ``
-##### Remove ec-mysql container (must stop it first)
+##### Remove tour-mysql container (must stop it first)
 ``
 docker rm tour-mysql
 ``
