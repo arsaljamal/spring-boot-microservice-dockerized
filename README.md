@@ -88,7 +88,7 @@ docker run --name tour-app -p 8080:8080 --link tour-mysql:mysql -d tour-service
 
 ##### Run Docker container with prod profile set in Dockerfile and migration scripts on host
 ``
-docker run --name tour-app -p 8080:8080 -v ~/db/migration:/var/migration -e server=tour-mysql -e port=3306 -e db_user=pk_user -e db_pass=pk_pass --link tour-mysql:mysql -d tour-service
+docker run --name tour-app -p 8080:8080 -v ~/app/src/main/resource/db/migration:/var/migration -e profile=prod -e server=tour-mysql -e port=3306 -e db_user=pk_user -e db_pass=pk_pass --link tour-mysql:mysql -d tour-service
 ``
 
 ##### enter Docker container
