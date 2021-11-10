@@ -37,3 +37,61 @@ docker rm tour-mysql
 ``
 docker rmi mysql:latest
 ``
+
+#### Setup
+``
+Set JAVA_HOME
+Set M2_HOME
+Add M2_HOME/bin to the execution path
+mvn package
+``
+
+#### Startup with Profile settings
+##### Default profile, H2 database
+``
+mvn spring-boot:run
+``
+
+or
+
+``
+java  -jar target/tour-service-1.0-SNAPSHOT.jar
+``
+##### Prod profile, MySql database (requires running container tour-mysql)
+``
+mvn spring-boot:run -Dspring.profiles.active=prod
+``
+
+or
+
+``
+java  -Dspring.profiles.active=prod -jar target/tour-service-1.0-SNAPSHOT.jar
+``
+#### Dockerize Tour-Service
+##### Build jar
+``
+mvn package
+``
+
+or
+``
+mvn package -DskipTests -Dspring.profiles.active=prod
+``
+##### Build Docker image
+``
+docker build -t tour-service .
+``
+##### Run Docker container
+``
+docker run --name tour-app -p 8080:8080 --link tour-mysql:mysql -d tour-service
+``
+
+##### Run Docker container with prod profile set in Dockerfile and migration scripts on host
+``
+docker run --name tour-app -p 8080:8080 -v ~/db/migration:/var/migration -e server=tour-mysql -e port=3306 -e db_user=pk_user -e db_pass=pk_pass --link tour-mysql:mysql -d tour-service
+``
+
+##### enter Docker container
+``
+docker exec -t -i tour-app /bin/bash
+``
