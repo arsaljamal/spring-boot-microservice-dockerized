@@ -2,6 +2,21 @@
 This is a Spring boot micro-service application which is dockerized.
 
 Install Docker For Mac/Windows/Linux
+
+### To run download the application
+``
+cd tour-service
+``
+and then 
+``
+docker-compose up -d
+``
+
+### Bashing into individual container
+``
+docker exec -it [container-name] bash
+``
+
 #### Docker Commands
 ##### Start MySql Container (downloads image if not found)
 ``

@@ -1,0 +1,41 @@
+version: '3.1'
+services:
+
+  tour-mysql:
+    container_name: tour-mysql
+    image: mysql:latest
+    restart: always
+    ports:
+      - 6604:3306
+    expose:
+      - 3306
+    # Where our data will be persisted
+    volumes:
+      - my-db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: tourpk
+      MYSQL_USER: pk_user
+      MYSQL_PASSWORD: pk_pass
+
+  tour-app:
+    container_name: tour-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - tour-mysql
+    links:
+      - tour-mysql
+    environment:
+      profile: prod
+      server: tour-mysql
+      port: 3306
+      db_user: pk_user
+      db_pass: pk_pass
+
+## Names our volume
+volumes:
+    my-db:
