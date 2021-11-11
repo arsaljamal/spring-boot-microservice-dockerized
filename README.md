@@ -1,9 +1,11 @@
 # spring-boot-microservice-dockerized
 This is a Spring boot micro-service application which is dockerized.
 
-Install Docker For Mac/Windows/Linux
+## STEP 1: ``Install Docker For Mac/Windows/Linux``
 
-### To run download the application
+## STEP 2: ``Running the application``
+### Download or pull Tour-Service from git
+### Open terminal and type the following commands
 ``
 cd tour-service
 ``
@@ -11,7 +13,7 @@ and then
 ``
 docker-compose up -d
 ``
-
+## Some helpful docker commands
 ### Bashing into individual container
 ``
 docker exec -it [container-name] bash
