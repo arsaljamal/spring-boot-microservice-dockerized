@@ -13,6 +13,9 @@ and then
 ``
 docker-compose up -d
 ``
+
+----------------------------------
+
 ## Some helpful docker commands
 ### Bashing into individual container
 ``
