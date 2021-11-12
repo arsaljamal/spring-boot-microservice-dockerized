@@ -15,7 +15,23 @@ docker-compose up -d
 ``
 
 ----------------------------------
+## OPTIONAL : deploying docker-compose to local kubernetes
 
+1- Install Minikube
+``
+brew install minikube (MacOS)
+``
+2- Start and run commands
+``minikube start , minikube kubectl -- get po -A, alias kubectl="minikube kubectl --"``
+
+3- Install Kompose to convert docker-compose.yml file to suitable kubernetes format
+``brew install kompose, kompose convert, 
+  kubectl apply -f tour-app-service.yaml,tour-mysql-service.yaml,tour-app-deployment.yaml,tour-mysql-deployment.yaml,my-db-persistentvolumeclaim.yaml``
+
+4- Access your Application
+``kubectl get services, minikube service tour-app
+``
+----------------------------------
 ## Some helpful docker commands
 ### Bashing into individual container
 ``
