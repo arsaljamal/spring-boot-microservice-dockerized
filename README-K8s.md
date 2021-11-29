@@ -2,7 +2,7 @@
 
 **Code**
 
-. Change to `manifests/standalone` directory
+. Change to `manifests/` directory
 . Show and explain manifests:
 
 	more yourservice-deployment.yaml
