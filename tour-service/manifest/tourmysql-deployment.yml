@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-db
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 256Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tour-mysql
+spec:
+  selector:
+    matchLabels:
+      app: tour-mysql
+  template:
+    metadata:
+      labels:
+        app: tour-mysql
+    spec:
+      containers:
+        - name: tour-mysql
+          image: mysql
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 6604
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: password
+            - name: MYSQL_DATABASE
+              value: tourpk
+            - name: MYSQL_USER
+              value: pk_user
+            - name: MYSQL_PASSWORD
+              value: pk_pass
+          volumeMounts:
+            - name: storage
+              mountPath: /data/db
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: mysql-db

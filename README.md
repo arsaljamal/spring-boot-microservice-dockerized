@@ -25,12 +25,30 @@ brew install minikube (MacOS)
 ``minikube start , minikube kubectl -- get po -A, alias kubectl="minikube kubectl --"``
 
 3- Install Kompose to convert docker-compose.yml file to suitable kubernetes format
-``brew install kompose, kompose convert, 
-  kubectl apply -f tour-app-service.yaml,tour-mysql-service.yaml,tour-app-deployment.yaml,tour-mysql-deployment.yaml,my-db-persistentvolumeclaim.yaml``
+
+`` cd tour-service/manifest
+``
+
+`` kubectl create -f tourmysql-deployment.yml,
+   tourmysql-service.yml, tourservice-deployment.yml,
+   tourservice-service.yml``
+
+``   kubectl get deployment``
+
+
+``kubectl get pods
+``
+
+``   kubectl logs tour-app-fcc9bc5cc-mq42w 
+``
+
+``   kubectl get svc
+`` 
 
 4- Access your Application
 ``kubectl get services, minikube service tour-app
 ``
+
 ----------------------------------
 ## Some helpful docker commands
 ### Bashing into individual container

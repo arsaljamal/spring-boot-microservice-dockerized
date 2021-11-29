@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tour-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tour-app
+  template:
+    metadata:
+      labels:
+        app: tour-app
+    spec:
+      containers:
+        - name: tour-app
+          image: tour-service_tour-app
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              name: "http"
+            - containerPort: 5005
+              name: "debug"
+          env:
+            - name: server
+              value: tour-mysql
+            - name: port
+              value: "6604"
+            - name: db_user
+              value: pk_user
+            - name: db_pass
+              value: pk_pass
