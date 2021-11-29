@@ -82,13 +82,13 @@ If Helm CLI is already installed then use `brew upgrade kubernetes-helm`.
 	helm version
 
 . Install Helm in Kubernetes cluster:
-+
-helm init
-+
+
+    helm init
+
 If Helm has already been initialized on the cluster, then you may have to upgrade Tiller:
-+
-helm init --upgrade
-+
+
+    helm init --upgrade
+
 . Show tiller is running:
 
 	kubectl get pods -n kube-system
