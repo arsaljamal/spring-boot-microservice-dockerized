@@ -1,0 +1,34 @@
+#TourApp Service
+tourapp:
+  image: tour-service_tour-app
+  replicaCount: 1
+  tourmysqlimage: mysql
+  tourmysqltag: latest
+  tourmysqlpullPolicy: IfNotPresent
+
+image:
+  tag: latest
+  pullPolicy: IfNotPresent
+
+environment:
+  profile: prod
+  server: tourmysql
+  port: 6604
+  db_user: pk_user
+  db_pass: pk_pass
+  accessModes: ReadWriteOnce
+  storage: 256Mi
+  MYSQL_ROOT_PASSWORD: password
+  MYSQL_DATABASE: tourpk
+  MYSQL_USER: pk_user
+  MYSQL_PASSWORD: pk_pass
+
+service:
+  type: LoadBalancer
+  externalPort: 8080
+  internalPort: 8080
+  externalDebugPort: 5005
+  internalDebugPort: 5005
+  tourmysqlexternalPort: 6604
+  tourmysqlinternalPort: 3306
+

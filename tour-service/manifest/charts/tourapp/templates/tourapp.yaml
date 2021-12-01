@@ -1,0 +1,58 @@
+#Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tourapp
+  labels:
+    name: tourapp
+    {{- template "labels" . }}
+spec:
+  replicas: {{ .Values.tourapp.replicaCount }}
+  selector:
+    matchLabels:
+      app: tourapp
+  template:
+    metadata:
+      labels:
+        app: tourapp
+    spec:
+      containers:
+        - name: tourapp
+          image: {{ .Values.tourapp.image }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: "http"
+              containerPort: {{ .Values.service.internalPort }}
+            - name: "debug"
+              containerPort: {{ .Values.service.internalDebugPort }}
+          env:
+            - name: server
+              value: {{ .Values.environment.server }}
+            - name: port
+              value: "{{ .Values.environment.port }}"
+            - name: db_user
+              value: {{ .Values.environment.db_user }}
+            - name: db_pass
+              value: {{ .Values.environment.db_pass }}
+---
+#Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: tourapp
+  labels:
+    name: tourapp
+    {{- template "labels" . }}
+spec:
+  selector:
+    app: tourapp
+  ports:
+    - name: http
+      protocol: TCP
+      port: {{ .Values.service.externalPort }}
+      targetPort: {{ .Values.service.internalPort }}
+    - name: debug
+      protocol: TCP
+      port: {{ .Values.service.externalDebugPort }}
+      targetPort: {{ .Values.service.internalDebugPort }}
+  type: LoadBalancer
