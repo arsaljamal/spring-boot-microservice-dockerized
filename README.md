@@ -1,5 +1,5 @@
 # spring-boot-microservice-dockerized
-This is a Spring boot micro-service application which is dockerized.
+This is a Spring boot micro-service application which is dockerized and deployed to local kubernetes using helm charts.
 
 ## STEP 1: ``Install Docker For Mac/Windows/Linux``
 
